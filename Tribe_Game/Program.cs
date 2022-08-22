@@ -9,11 +9,11 @@ namespace Tribe_Game
         {
             int Size_World = 50; 
             //Rozmiar świata
-            int Percent_Forest = 40;
+            int Percent_Forest = 30;
             //Procent powierzchni zajętej przez lasy
             int Density_Forest = 9;
             //Gęstość zalesienia w skali 0-10 
-            int Percent_Water = 5;
+            int Percent_Water =10;
             //Procent powierzchni zajątej przez wode
             
             World mainworld = new World(Size_World, Percent_Forest, Density_Forest, Percent_Water);
@@ -74,37 +74,49 @@ namespace Tribe_Game
 
         public void Generate_Waters(int Size_World, int Percent_Water) //Funkcja genegująca jeziora i rzeki
         {
-            int Range_River = (Size_World * Size_World) * Percent_Water / 50 ;           
-            //int Size_Lake = Size_World / 10;
-            Cellule Start = new Cellule();
-            Start.xPos = Random_Generator(Size_World);
-            Start.yPos = Random_Generator(Size_World);
-            //Console.WriteLine("Współrzędne to [" + Start.xPos + "," + Start.yPos + "]");
-            
-            board[Start.xPos, Start.yPos].type = 2;
-
-            for (int i = 0; i < (Range_River/3); i++)
+            int Range_River = ((Size_World * Size_World) * Percent_Water/100)/Size_World ;
+            for (int i = 0; i < Range_River; i++)
             {
-                int x = Random_Generator(3) - 1;
-                int y = Random_Generator(3) - 1;
-                for (int j = 0; j < 5; j++)
+                int x = Random_Generator(Size_World);
+                int y = Random_Generator(Size_World);
+                board[x, y].type = 2;
+                if (Random_Generator(1)>=0) //Generowanie jeziora
                 {
-                    if ((Start.xPos + x) < (Size_World - 1) && (Start.yPos + y) < (Size_World - 1))
+                    int Lake_Range = Random_Generator((Size_World/10)+1);
+                    for (int k = 0; k < Lake_Range * 2; k++)
                     {
-                        if ((Start.xPos + x) >= 0 && (Start.yPos + y) >= 0)
+                        for (int l = 0; l < Lake_Range * 2; l++)
                         {
-                            if (board[Start.xPos + x, Start.yPos + y].type != 2)
+                            if (Cellule_Check(x - Lake_Range + k, y - Lake_Range + l, Size_World))
                             {
-                                board[Start.xPos + x, Start.yPos + y].type = 2;
-                                Start.xPos = Start.xPos + x;
-                                Start.yPos = Start.yPos + y;
+                                board[x - Lake_Range + k, y - Lake_Range + l].type = 2;
                             }
                         }
                     }
+                }
+                else // Generowanie rzeki 
+                {
+                    int Lake_Range = Random_Generator(Size_World/2);
+                    int Points_intersection = Lake_Range/Random_Generator(Size_World/10);
+                    for (int m = 0; m < Points_intersection; m++)
+                    {
+                        int x_vector = Random_Generator(2) - 1;
+                        int y_vector = Random_Generator(2) - 1;
+
+                    }
+                    
+                    
+                        
+
+                       
+
 
                 }
-                                             
             }
+            
+            //Console.WriteLine("Współrzędne to [" + Start.xPos + "," + Start.yPos + "]");
+            Console.WriteLine(Range_River);
+            
             
 
         }
