@@ -7,11 +7,11 @@ namespace Tribe_Game
     {
         static void Main(string[] args)
         {
-            int Size_World = 50; 
+            int Size_World = 20; 
             //Rozmiar świata
             int Percent_Forest = 30;
             //Procent powierzchni zajętej przez lasy
-            int Density_Forest = 9;
+            int Density_Forest = 8;
             //Gęstość zalesienia w skali 0-10 
             int Percent_Water =10;
             //Procent powierzchni zajątej przez wode
@@ -74,51 +74,51 @@ namespace Tribe_Game
 
         public void Generate_Waters(int Size_World, int Percent_Water) //Funkcja genegująca jeziora i rzeki
         {
-            int Range_River = ((Size_World * Size_World) * Percent_Water/100)/Size_World ;
+            int Range_River = ((Size_World * Size_World) * Percent_Water/100)/Size_World; //Ilość obiektów wodnych
+            Console.WriteLine(Range_River);
             for (int i = 0; i < Range_River; i++)
             {
                 int x = Random_Generator(Size_World);
                 int y = Random_Generator(Size_World);
                 board[x, y].type = 2;
-                if (Random_Generator(1)>=0) //Generowanie jeziora
+                int shot = Random_Generator(3);
+                if (shot<1) //Generowanie jeziora
                 {
-                    int Lake_Range = Random_Generator((Size_World/10)+1);
-                    for (int k = 0; k < Lake_Range * 2; k++)
+                    int Lake = Random_Generator((Size_World/10)+1);
+                    for (int k = 0; k < Lake*2; k++)
                     {
-                        for (int l = 0; l < Lake_Range * 2; l++)
+                        for (int l = 0; l < Lake*2; l++)
                         {
-                            if (Cellule_Check(x - Lake_Range + k, y - Lake_Range + l, Size_World))
+                            if (Cellule_Check(x - Lake + k, y - Lake + l, Size_World))
                             {
-                                board[x - Lake_Range + k, y - Lake_Range + l].type = 2;
+                                board[x - Lake + k, y - Lake + l].type = 2;
                             }
                         }
                     }
                 }
                 else // Generowanie rzeki 
                 {
-                    int Lake_Range = Random_Generator(Size_World/2);
-                    int Points_intersection = Lake_Range/Random_Generator(Size_World/10);
+                    int Lake_Range = Size_World;  // Długość całej rzeki
+                    int Points_intersection = Lake_Range/(Random_Generator(Size_World/4)+3);  // Ilość punktów złamania
+                    int Range_bPoints = Lake_Range / (Points_intersection+1); // Długość pomiędzy punktami 
                     for (int m = 0; m < Points_intersection; m++)
                     {
                         int x_vector = Random_Generator(2) - 1;
                         int y_vector = Random_Generator(2) - 1;
+                        for (int n = 0; n < Range_bPoints; n++)
+                        {
+                            if (Cellule_Check(x + x_vector, y + y_vector, Size_World))
+                            {
+                                board[x+x_vector,y+y_vector].type = 2;
+                                x = x + x_vector;
+                                y = y + y_vector;
 
+
+                            }
+                        }
                     }
-                    
-                    
-                        
-
-                       
-
-
                 }
-            }
-            
-            //Console.WriteLine("Współrzędne to [" + Start.xPos + "," + Start.yPos + "]");
-            Console.WriteLine(Range_River);
-            
-            
-
+            }                                                                     
         }
 
         public void Print_World(int Size_World)   // Funkcja drukująca świat w konsoli
@@ -133,7 +133,6 @@ namespace Tribe_Game
                 Console.WriteLine();
             }
         }
-
         public bool Cellule_Check(int x,int y,int Size_World) //Funkcja sprawdzająca czy wybrana komórka nie leży poza światem
         {
             if(x >= 0 && x < Size_World)
