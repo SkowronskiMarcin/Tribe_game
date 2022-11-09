@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Tribe_Game
+namespace Map_Generator
 {
      
     class Program
     {
         static void Main(string[] args)
         {
-            int Size_World = 20; 
+            int Size_World = 50; 
             //Rozmiar świata
             int Percent_Forest = 30;
             //Procent powierzchni zajętej przez lasy
