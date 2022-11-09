@@ -11,9 +11,9 @@ namespace Genetic_Algorithm.Animals
     {
         public int age = 0; 
         // Startowy wiek = 0
-        public bool sex { get; set; } 
-        // false = woman
-        // true = man
+        public int sex { get; set; }  // 0-1
+        // 0 = woman
+        // 1 = man
         public int max_age { get; set; } // 5-10 
         public int max_energy { get; set; } // 10-20
 
@@ -34,7 +34,7 @@ namespace Genetic_Algorithm.Animals
         public Rabbit born_start_Rabbit(Rabbit t) //Urodzenie startowego królika bez rodziców
         {           
             Random generator = new Random();
-            t.sex = Convert.ToBoolean(generator.Next(1)); //Losowanie puci
+            t.sex = generator.Next(2); //Losowanie puci
             t.max_age = generator.Next(5) + 5;
             t.max_energy = generator.Next(11) + 10;
             t.speed = generator.Next(11);
@@ -44,19 +44,39 @@ namespace Genetic_Algorithm.Animals
         }
         public string convert_color_tostring(Rabbit rabbit)
         {
-            string[] kolory_królików = { "bonus_polana_+1","bonus_las+1","brak_bonusu", "bonus_polana_+0,5", "bonus_polana_ + 0,5"};
+            string[] kolory_królików = {"bonus_polana_+1","bonus_las+1","brak_bonusu", "bonus_polana_+0,5", "bonus_polana_ + 0,5"};
             return kolory_królików[rabbit.color];
         }
+
+        public string convert_charakter_tostring(Rabbit rabbit)
+        {
+            string[] charaktery_królików = { "Łasuc", "lovelas", "podróżnik", "wodnik"};
+            return charaktery_królików[rabbit.characteristic];
+        }
+
+        public string convert_sex_tostring(Rabbit rabbit)
+        {
+            string[] płcie_królików = {"man","woman"};
+            if (rabbit.sex==1)
+            {
+                return płcie_królików[0];
+            }
+            else
+            {
+                return płcie_królików[1];
+            }
+        }
+
         public void show_info_about_Rabbit(Rabbit rabbit)
         {
             Console.WriteLine(
-                "Królik: wiek:"+rabbit.age+
-                " max_wiek:"+rabbit.max_age+
-                " płeć"+rabbit.sex+
-                " maksymalna energia"+rabbit.max_energy+
-                " Szybkosc:"+rabbit.speed+
-                " Kolor:"+convert_color_tostring(rabbit)+
-                " Charakter:"+rabbit.characteristic+"");
+                "Królik: wiek: "+rabbit.age+
+                " max_wiek: "+rabbit.max_age+
+                " płeć "+convert_sex_tostring(rabbit)+
+                " maksymalna energia "+rabbit.max_energy+
+                " Szybkosc: "+rabbit.speed+
+                " Kolor: "+convert_color_tostring(rabbit)+
+                " Charakter: " + convert_color_tostring(rabbit)+"");
         }
     }
 }

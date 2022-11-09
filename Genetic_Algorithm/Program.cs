@@ -17,8 +17,8 @@ namespace Generetic_Algorithm
                 Rabbit t = new Rabbit();
                 population.Add(t.born_start_Rabbit(t));
             }
-            Console.WriteLine("Pomyślnie utworzyłeś populację królików liczącą:" + abundance_int + "sztuk");
-            bool ping = false;
+            Console.WriteLine("Pomyślnie utworzyłeś populację królików liczącą: " + abundance_int + " sztuk");
+            bool ping = true;
             while (ping == true)
             {
                 Console.WriteLine("Dostępne komendy: Wyswietl, NextCykl, Reset, Koniec");
@@ -26,12 +26,18 @@ namespace Generetic_Algorithm
                 switch (command)
                 {                   
                     case "Wyswietl":
+                        for (int i = 0; i < population.Count; i++)
+                        {
+                            Console.Write(+i+1+" ");
+                            population[i].show_info_about_Rabbit(population[i]);                           
+                        }
                         break;
                     case "NextCykl":
                         break;
                     case "Reset":
                         break;
                     case "Koniec":
+                        ping = false;
                         break;
                 }
 
